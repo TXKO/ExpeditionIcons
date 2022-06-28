@@ -1,18 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.MemoryObjects;
-using ExileCore.Shared;
-using ExileCore.Shared.Abstract;
 using ExileCore.Shared.Cache;
 using ExileCore.Shared.Enums;
 using ExileCore.Shared.Helpers;
 using ImGuiNET;
 using SharpDX;
-using WpfPermutations;
 using Map = ExileCore.PoEMemory.Elements.Map;
 
 namespace ExpeditionIcons
@@ -101,7 +97,6 @@ namespace ExpeditionIcons
                 efficientLines.Clear();
                 getBestLine(artifacts);
             }
-            base.DrawSettings();
             if (ImGui.Button("Calculate explosion radius. Place 1 explosive and make it intersect the detonator"))
             {
                 Settings.ExplosiveRange.Value = Vector3.Distance(explosives[0].Pos, detonator.Pos);
@@ -110,6 +105,7 @@ namespace ExpeditionIcons
             {
                 Settings.ExplosiveDistance.Value = Vector3.Distance(explosives[0].Pos, detonator.Pos);
             }
+            base.DrawSettings();
         }
 
         public override void Render()
@@ -248,7 +244,7 @@ namespace ExpeditionIcons
                             (animatedMetaData.Contains("ChestCurrency") && Settings.ShowBasicCurrency.Value) ||
                             (animatedMetaData.Contains("ChestTrinkets") && Settings.ShowJewellery.Value) ||
                             (animatedMetaData.Contains("ChestHarbinger") && Settings.ShowHarbinger.Value) ||
-                            animatedMetaData.Contains("ChestHeist"))
+                            (animatedMetaData.Contains("ChestHeist") && Settings.ShowHeist.Value))
                         {
                             var location = e.Pos;
                             location.Z -= 10;
@@ -766,12 +762,14 @@ namespace ExpeditionIcons
                         (mods.Any(x => x.Contains("ExpeditionRelicModifierImmuneLightningDamage")) && Settings.LightningImmune.Value) ||
                         (mods.Any(x => x.Contains("ExpeditionRelicModifierImmuneChaosDamage")) && Settings.ChaosImmune.Value) ||
                         (mods.Any(x => x.Contains("ExpeditionRelicModifierCannotBeCrit")) && Settings.CritImmune.Value) || 
-                        (mods.Any(x => x.Contains("ExpeditionRelicModifierImmuneStatusAilments")) && Settings.FireImmune.Value) ||
+                        (mods.Any(x => x.Contains("ExpeditionRelicModifierImmuneStatusAilments")) && Settings.AilmentImmune.Value) ||
                         (mods.Any(x => x.Contains("ExpeditionRelicModifierCullingStrikeTwentyPercent")) && Settings.Culling.Value) ||
                         (mods.Any(x => x.Contains("ExpeditionRelicModifierElitesRegenerateLifeEveryFourSeconds")) && Settings.Regen.Value) ||
                         (mods.Any(x => x.Contains("ExpeditionRelicModifierExpeditionCorruptedItemsElite")) && Settings.CorruptedItems.Value) ||
                         (mods.Any(x => x.Contains("ExpeditionRelicModifierAttackBlockSpellBlockMaxBlockChance")) && Settings.BlockChance.Value) ||
-                        (mods.Any(x => x.Contains("ExpeditionRelicModifierResistancesAndMaxResistances")) && Settings.MaxResistances.Value))
+                        (mods.Any(x => x.Contains("ExpeditionRelicModifierResistancesAndMaxResistances")) && Settings.MaxResistances.Value) ||
+                        (mods.Any(x => x.Contains("ExpeditionRelicModifierCannotBeLeechedFrom")) && Settings.NoLeech.Value) ||
+                        (mods.Any(x => x.Contains("ExpeditionRelicModifierImmuneToCurses")) && Settings.NoCurse.Value))
                         
                      
                        
